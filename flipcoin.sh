@@ -4,6 +4,7 @@ read -p "Enter the conditiion upto which either Head or Tail have won " c
 echo "Random no when Head wins=1"
 echo "Random no when Tail Wins=0"
 pr=0
+ti=0
 	if [ $c -ge $n ]
 	then
 	pr=1
@@ -21,18 +22,37 @@ do
 	else ((t++))
 	fi
 
-	if [[ $h -eq $c ]] || [[ $t -eq $c ]]
+	if [[ $h -ge $c ]] || [[ $t -ge $c ]]
 	then
-		if [[ $h -gt $t ]]
-		then echo "Head wins by $((h-t)) times" 
-		break
-		elif [[ $h -eq $t ]]
-		then echo "It's a tie" 
-		break
+		if [ $h -gt $t ]
+		then 	if [ ! $ti -eq 1 ]
+			then
+			echo "Head wins by $((h-t)) times"
+			break
+			else ((ht++))
+			fi
+		elif [ $h -eq $t ]
+		then echo "It's a tie"
+				ti=1
 		else
-		echo "Tail wins by $((t-h)) times" 
+			if [ ! $ti -eq 1 ]
+			then
+			echo "Tail wins by $((t-h)) times"
+			break
+			else
+			((tt++))
+			fi
 		break
 		fi
 	fi
+
+	y=$((ht-tt))
+		if [ $y -eq 2 ]
+		then echo "When Tie then Head wins by two points"
+		break
+		elif [ $y -eq -2 ]
+		then echo "When tie then Tails wins by two points"
+		break
+		fi
 done
 fi
